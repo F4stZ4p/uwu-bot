@@ -283,9 +283,10 @@ You have 30 seconds to guess! Good luck!
                         "You don't have enough XP to exchange that."
                     )
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, uwus = user_stats.uwus + $2",
+                    "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, uwus = user_stats.uwus + $2 WHERE user_id = $3",
                     amount,
                     amount,
+                    ctx.author.id,
                 )
                 await ctx.send(f"Converted {amount}xp to {amount} uwus")
             if exchange.lower() == "uwus":
@@ -294,9 +295,10 @@ You have 30 seconds to guess! Good luck!
                         "You don't have enough uwus to exchange that."
                     )
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp + $1, uwus = user_stats.uwus - $2",
+                    "UPDATE user_stats SET current_xp = user_stats.current_xp + $1, uwus = user_stats.uwus - $2 WHERE user_id = $3",
                     amount,
                     amount,
+                    ctx.author.id,
                 )
                 await ctx.send(f"Converted {amount} uwus to {amount}xp")
 
