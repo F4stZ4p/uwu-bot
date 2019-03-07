@@ -6,10 +6,12 @@ import time
 import asyncio
 import asyncpg
 from datetime import datetime, timedelta, timezone
-from random import randint
-from random import choice
+from random import choice, randint, seed
 import psutil
 import os
+import re
+import logging
+import math
 import sys
 
 colors = [0xE56B6B, 0xDD5151, 0xBA3434, 0xAB1F1F, 0x940808]
@@ -327,7 +329,6 @@ uwu rules. You must follow these or we will take action
         await msg.edit(
             content=f"The love calculator says {lover.name} loves {lovee.name} **{love}**%"
         )
-
 
 def setup(bot):
     bot.add_cog(misc(bot))
