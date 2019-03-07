@@ -8,7 +8,7 @@ import asyncpg
 from datetime import datetime
 from utils import errorhandler
 import secrets
-from random import choice
+from random import choice, randint
 
 heads = "<:uwuheads:517079577072238624>"
 tails = "<:uwutails:517081802246979616>"
