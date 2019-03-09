@@ -223,7 +223,7 @@ You have 30 seconds to guess! Good luck!
             if uwulonian["current_xp"] < 500:
                 return await ctx.caution("You must have atleast 500xp to scavenge.")
             if choice(["false", "true"]) == "false":
-                xp_lost = randint(100, 500)
+                xp_lost = randint(100, 300)
                 await conn.execute(
                     "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, total_deaths = user_stats.total_deaths + 1 WHERE user_id = $2",
                     xp_lost,
@@ -233,7 +233,7 @@ You have 30 seconds to guess! Good luck!
                     f"You died while scavenging and lost {xp_lost}xp..."
                 )
             else:
-                xp_won = randint(200, 800)
+                xp_won = randint(50, 175)
                 booster = await conn.fetchrow(
                     "SELECT boost_type, boost_amount, active_boosters FROM user_boosters WHERE user_id = $1",
                     ctx.author.id,
@@ -248,7 +248,7 @@ You have 30 seconds to guess! Good luck!
                         f"""{uwulonian["username"]} is back from scavenging and gained {xp_won}xp"""
                     )
                 if booster["boost_type"] == "XP":
-                    xp_won = xp_won * booster["boost_amount"]
+                    xp_won = 50 * booster["boost_amount"]
                     await ctx.send(
                         f"""You have a {booster["boost_amount"]} XP booster active."""
                     )
