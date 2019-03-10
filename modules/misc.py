@@ -317,18 +317,24 @@ uwu rules. You must follow these or we will take action
         await asyncio.sleep(3)
         await msg.edit(content=f"A: **{choice(responses)}**")
 
-        @commands.command(aliases=["lovedar"])
-        async def love(self, ctx, lover: discord.Member, lovee: discord.Member):
-            msg = await ctx.send("**Calculating...**")
-            await asyncio.sleep(3)
+    @commands.command(aliases=["lovedar"])
+    async def love(self, ctx, lover: discord.Member, lovee: discord.Member):
+        msg = await ctx.send("**Calculating...**")
+        await asyncio.sleep(3)
+        if lover.id in (
+            300_088_143_422_685_185,
+            422_181_415_598_161_921,
+        ) and lovee.id in (300_088_143_422_685_185, 422_181_415_598_161_921):
+            love = 100.00
+        else:
             seed(int(str(lover.id) + str(lovee.id)))
             if lover == lovee:
                 love = 0
             else:
                 love = randint(1, 10000) / 100
-            await msg.edit(
-                content=f"The love calculator says {lover.name} loves {lovee.name} **{love}**%"
-            )
+        await msg.edit(
+            content=f"The love calculator says {lover.name} loves {lovee.name} **{love}**%"
+        )
 
 
 def setup(bot):
