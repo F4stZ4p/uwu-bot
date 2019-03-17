@@ -20,6 +20,7 @@ class owner(commands.Cog):
             422_181_415_598_161_921,
             428_888_500_964_687_873,
             311_553_339_261_321_216,
+            440_113_725_970_710_528,
         ]
 
     async def cog_check(self, ctx):
@@ -34,7 +35,7 @@ class owner(commands.Cog):
         if reason is None:
             reason = "No reason"
         if len(reason) > 512:
-            return await ctx.send("Reason can't be more then `512` characters.")
+            return await ctx.send("Reason can't be more then 512 characters.")
 
         try:
             await self.bot.pool.execute(
@@ -44,7 +45,7 @@ class owner(commands.Cog):
                 ctx.author.id,
             )
             self.bot.blacklisted.append(user_id)
-            return await ctx.send(f"Done. Blacklisted `{user.name}` for `{reason}`")
+            return await ctx.send(f"Done. Blacklisted {user.name} for {reason}")
         except asyncpg.UniqueViolationError:
             return await ctx.send("Error. User already blacklisted.", delete_after=30)
 
@@ -64,13 +65,13 @@ class owner(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def patreon(self, ctx):
         await ctx.send(
-            "No subcommand passed. Valid subcommands `add, remove`", delete_after=30
+            "No subcommand passed. Valid subcommands add, remove", delete_after=30
         )
 
     @patreon.command()
     async def add(self, ctx, user_id: int, tier):
         if tier not in ["Supporter", "Awesome", "Wow"]:
-            return await ctx.send("Invalid tier. Valid are `Supporter, Awesome, Wow`")
+            return await ctx.send("Invalid tier. Valid are Supporter, Awesome, Wow")
 
         try:
             user = self.bot.get_user(user_id)
@@ -118,7 +119,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
     @commands.group(invoke_without_command=True)
     async def uwulonian(self, ctx):
         await ctx.send(
-            "No subcommand passed. Valid subcommands `givexp, giveuwus, removexp, removeuwus`",
+            "No subcommand passed. Valid subcommands givexp, giveuwus, removexp, removeuwu",
             delete_after=30,
         )
 
@@ -130,7 +131,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
             amount,
             user_id,
         )
-        await ctx.send(f"Gave `{user.name}` `{amount}` xp.")
+        await ctx.send(f"Gave {user.name} {amount} xp.")
 
     @uwulonian.command()
     async def giveuwus(self, ctx, user_id: int, amount: int):
@@ -140,7 +141,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
             amount,
             user_id,
         )
-        await ctx.send(f"Gave `{user.name}` `{amount}` uwus.")
+        await ctx.send(f"Gave {user.name} {amount} uwus.")
 
     @uwulonian.command()
     async def removexp(self, ctx, user_id: int, amount: int):
@@ -150,7 +151,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
             amount,
             user_id,
         )
-        await ctx.send(f"Removed `{amount}` xp from `{user.name}`.")
+        await ctx.send(f"Removed {amount} xp from {user.name}.")
 
     @uwulonian.command()
     async def removeuwus(self, ctx, user_id: int, amount: int):
@@ -160,7 +161,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
             amount,
             user_id,
         )
-        await ctx.send(f"Removed `{amount}` uwws from `{user.name}`.")
+        await ctx.send(f"Removed {amount} uwws from {user.name}.")
 
     @uwulonian.command()
     async def status(self, ctx):

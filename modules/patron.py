@@ -48,7 +48,7 @@ class patron(commands.Cog):
     )
     async def patron(self, ctx):
         await ctx.send(
-            "No subcommand passed or invalid was passed. Valid subcommands `timecheck, biweekly`"
+            "No subcommand passed or invalid was passed. Valid subcommands timecheck, biweekly"
         )
 
     @patron.command(

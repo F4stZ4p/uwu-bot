@@ -57,7 +57,7 @@ class misc(commands.Cog):
         t_2 = time.perf_counter()
         time_delta = round((t_2 - t_1) * 1000)
         await ctx.send(
-            f":ping_pong: Websocket: `{round(self.bot.latency*1000)}` ms. Typing: `{time_delta}` ms"
+            f":ping_pong: Websocket: {round(self.bot.latency*1000)}ms. Typing: {time_delta}ms"
         )
 
     @commands.command(
@@ -313,9 +313,9 @@ uwu rules. You must follow these or we will take action
             "Outlook not so good.",
             "Very doubtful.",
         ]
-        msg = await ctx.send(f"Q: **{question}...**")
+        msg = await ctx.send(f"Q: {question}...")
         await asyncio.sleep(3)
-        await msg.edit(content=f"A: **{choice(responses)}**")
+        await msg.edit(content=f"A: {choice(responses)}")
 
     @commands.command(aliases=["lovedar"])
     async def love(self, ctx, lover: discord.Member, lovee: discord.Member):
@@ -333,7 +333,7 @@ uwu rules. You must follow these or we will take action
             else:
                 love = randint(1, 10000) / 100
         await msg.edit(
-            content=f"The love calculator says {lover.name} loves {lovee.name} **{love}**%"
+            content=f"The love calculator says {lover.name} loves {lovee.name} {love}%"
         )
 
 

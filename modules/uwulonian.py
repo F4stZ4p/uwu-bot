@@ -78,12 +78,12 @@ class uwulonian(commands.Cog):
                 )
 
             end = time.perf_counter()
-            await ctx.send(f"That took `{end - start:.3f}`sec to complete")
+            await ctx.send(f"That took {end - start:.3f}sec to complete")
 
     @commands.group(invoke_without_command=True, aliases=["colour"])
     async def color(self, ctx):
         await ctx.send(
-            "No subcommand passed. Valid subcommands `set, default, current, random, and list`",
+            "No subcommand passed. Valid subcommands set, default, current, random, and list",
             delete_after=30,
         )
 
@@ -93,19 +93,19 @@ class uwulonian(commands.Cog):
             rgb = ImageColor.getrgb(color)
         except ValueError as e:
             return await ctx.caution(
-                "Not a valid color for all valid colors do `uwu color list`."
+                "Not a valid color for all valid colors do uwu color list."
             )
         await self.bot.pool.execute(
             "UPDATE user_settings SET profile_color = $1 WHERE user_id = $2",
             color,
             ctx.author.id,
         )
-        await ctx.send(f"Set your profile color to `{color}`")
+        await ctx.send(f"Set your profile color to {color}")
 
     @color.command()
     async def list(self, ctx):
         await ctx.send(
-            f"""Some valid colors are `{", ".join(extras.pil_colors)}`. A full list of colors can be found here <https://www.uwu-bot.xyz/color/>"""
+            f"""Some valid colors are {", ".join(extras.pil_colors)}. A full list of colors can be found here <https://www.uwu-bot.xyz/color/>"""
         )
 
     @errorhandler.is_patron()
@@ -117,7 +117,7 @@ class uwulonian(commands.Cog):
             rand_color,
             ctx.author.id,
         )
-        await ctx.send(f"Your profile is now `{rand_color}`")
+        await ctx.send(f"Your profile is now {rand_color}")
 
     @color.command()
     async def current(self, ctx):
@@ -125,7 +125,7 @@ class uwulonian(commands.Cog):
             "SELECT profile_color FROM user_settings WHERE user_id = $1", ctx.author.id
         )
         await ctx.send(
-            f"Your profiles current color is `{current_color['profile_color']}`"
+            f"Your profiles current color is {current_color['profile_color']}"
         )
 
     @color.command()
@@ -135,7 +135,7 @@ class uwulonian(commands.Cog):
             "white",
             ctx.author.id,
         )
-        await ctx.send("Set your profiles color to `white`")
+        await ctx.send("Set your profiles color to white")
 
     @commands.command(
         description="Get an uwulonians or your stats",

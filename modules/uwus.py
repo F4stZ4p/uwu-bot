@@ -41,7 +41,7 @@ class uwus(commands.Cog):
             choice = choice.lower()
             if amount < 50 or amount > 50000:
                 return await ctx.send(
-                    "You may not bet less then `50` uwus or more than `50000` on a coinflip",
+                    "You may not bet less then 50 uwus or more than 50000 on a coinflip",
                     delete_after=30,
                 )
             if choice != "heads" and choice != "tails":
@@ -71,7 +71,7 @@ class uwus(commands.Cog):
                         amount,
                         ctx.author.id,
                     )
-                    return await ctx.send(f"{emote} You won `{amount}` uwus!")
+                    return await ctx.send(f"{emote} You won {amount} uwus!")
                 if booster["boost_type"] == "uwus":
                     amount = amount * booster["boost_amount"]
                     await conn.execute(
@@ -80,7 +80,7 @@ class uwus(commands.Cog):
                         ctx.author.id,
                     )
                     return await ctx.send(
-                        f"{emote} You won `{amount}` uwus! You have an {booster['active_boosters']} activated! Enjoy the extra uwus"
+                        f"{emote} You won {amount} uwus! You have an {booster['active_boosters']} activated! Enjoy the extra uwus"
                     )
             else:
                 await conn.execute(
@@ -155,7 +155,7 @@ You have 30 seconds to guess! Good luck!
                         await embed.delete()
                         self.active_games.remove(ctx.channel.id)
                         return await ctx.send(
-                            f"{name.author} guessed correctly and got `50` uwus! It was {randmem.name}."
+                            f"{name.author} guessed correctly and got 50 uwus! It was {randmem.name}."
                         )
                 if booster["boost_type"] == "uwus":
                     amount = amount * booster["boost_amount"]
@@ -168,7 +168,7 @@ You have 30 seconds to guess! Good luck!
                         await embed.delete()
                         self.active_games.remove(ctx.channel.id)
                         return await ctx.send(
-                            f"{name.author} guessed correctly and got `{amount}` uwus! It was {randmem.name}. {name.author} has an {booster['active_boosters']} activated! Enjoy the extra uwus"
+                            f"{name.author} guessed correctly and got {amount} uwus! It was {randmem.name}. {name.author} has an {booster['active_boosters']} activated! Enjoy the extra uwus"
                         )
             except:
                 self.active_games.remove(ctx.channel.id)
@@ -196,9 +196,9 @@ You have 30 seconds to guess! Good luck!
             if ctx.author.id == user.id:
                 return await ctx.caution("You can't give yourself uwus.")
             if amount < 50:
-                return await ctx.caution("You can't give less than `50` uwus.")
+                return await ctx.caution("You can't give less than 50 uwus.")
             if amount > 50000:
-                return await ctx.caution("You can't give more then `50000` uwus")
+                return await ctx.caution("You can't give more then 50000 uwus")
             if amount > user_amount["uwus"]:
                 return await ctx.caution("You don't have the funds to give that much")
 
@@ -212,7 +212,7 @@ You have 30 seconds to guess! Good luck!
                 amount,
                 user.id,
             )
-            await ctx.send(f"{uwu_emote} You gave `{amount}` to `{user.name}`")
+            await ctx.send(f"{uwu_emote} You gave {amount} to {user.name}")
 
     @commands.command()
     async def scavenge(self, ctx):
@@ -277,26 +277,27 @@ You have 30 seconds to guess! Good luck!
             )
             if exchange.lower() not in ["uwus", "xp"]:
                 return await ctx.caution("Please only use uwus or xp.")
+            amount_with_e = amount * 3.2
             if exchange.lower() == "xp":
-                if uwulonian["current_xp"] < amount:
+                if uwulonian["current_xp"] < amount_with_e:
                     return await ctx.caution(
-                        "You don't have enough XP to exchange that."
+                        "You don't have enough XP to exchange that. (Note: There is a fee)"
                     )
                 await conn.execute(
                     "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, uwus = user_stats.uwus + $2 WHERE user_id = $3",
-                    amount,
+                    amount_with_e,
                     amount,
                     ctx.author.id,
                 )
                 await ctx.send(f"Converted {amount}xp to {amount} uwus")
             if exchange.lower() == "uwus":
-                if uwulonian["uwus"] < amount:
+                if uwulonian["uwus"] < amount_with_e:
                     return await ctx.caution(
-                        "You don't have enough uwus to exchange that."
+                        "You don't have enough uwus to exchange that. (Note: There is a fee)"
                     )
                 await conn.execute(
                     "UPDATE user_stats SET current_xp = user_stats.current_xp + $1, uwus = user_stats.uwus - $2 WHERE user_id = $3",
-                    amount,
+                    amount_with_e,
                     amount,
                     ctx.author.id,
                 )

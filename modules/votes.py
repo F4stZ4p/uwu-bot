@@ -24,7 +24,7 @@ class votes(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def vote(self, ctx):
         await ctx.send(
-            "No subcommand passed or invalid was passed. Valid subcommands `reward, cat`"
+            "No subcommand passed or invalid was passed. Valid subcommands reward, cat"
         )
 
     @errorhandler.on_cooldown()
@@ -43,7 +43,7 @@ class votes(commands.Cog):
             "UPDATE user_stats SET uwus = user_stats.uwus + 1000, current_xp = user_stats.current_xp + 500 WHERE user_id = $1",
             ctx.author.id,
         )
-        await ctx.send("Thanks for voting. You received `1000` uwus and `500` xp!")
+        await ctx.send("Thanks for voting. You received 1000 uwus and 500 xp!")
 
     @errorhandler.on_cooldown()
     @errorhandler.has_uwulonian()

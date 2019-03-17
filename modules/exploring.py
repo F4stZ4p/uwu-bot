@@ -195,7 +195,7 @@ Time {datetime.utcnow().strftime("%X on %x")}```
                 seconds = round(hu_time_left, 2)
                 minutes, seconds = divmod(hu_time_left, 60)
                 return await ctx.caution(
-                    f"Your uwulonian is already exploring. It will return in `{int(minutes)}`m `{int(seconds)}`sec."
+                    f"Your uwulonian is already exploring. It will return in {int(minutes)}m {int(seconds)}sec."
                 )
             if adventure:
                 time_left = adventure["finish_time"] - datetime.utcnow()
@@ -203,7 +203,7 @@ Time {datetime.utcnow().strftime("%X on %x")}```
                 seconds = round(hu_time_left, 2)
                 minutes, seconds = divmod(hu_time_left, 60)
                 return await ctx.caution(
-                    f"Your uwulonian is already adventuring. It will return in `{int(minutes)}`m `{int(seconds)}`sec."
+                    f"Your uwulonian is already adventuring. It will return in {int(minutes)}m {int(seconds)}sec."
                 )
             end_time = datetime.utcnow() + timedelta(hours=1)
             await conn.execute(

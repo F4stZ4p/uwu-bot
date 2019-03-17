@@ -21,7 +21,7 @@ class MemberID(commands.Converter):
                 return int(argument, base=10)
             except ValueError:
                 raise commands.BadArgument(
-                    f"`{argument}` is not a valid member or ID."
+                    f"{argument} is not a valid member or ID."
                 ) from None
         else:
             can_execute = (
@@ -67,7 +67,7 @@ class moderation(commands.Cog):
         await ctx.guild.ban(user, reason=f"[SOFTBAN] {user.id} for {reason}")
         await ctx.guild.unban(user, reason=f"[SOFTBAN UNBAN]")
 
-        await ctx.send(f"Softbanned `{user}` for `{reason}`")
+        await ctx.send(f"Softbanned {user} for {reason}")
 
     @commands.has_permissions(ban_members=True)
     @commands.command(
@@ -80,7 +80,7 @@ class moderation(commands.Cog):
         await ctx.guild.ban(
             discord.Object(id=user), reason=f"[BAN] {user} for {reason}"
         )
-        await ctx.send(f"Banned `{user}` for `{reason}`")
+        await ctx.send(f"Banned {user} for {reason}")
 
     @commands.has_permissions(kick_members=True)
     @commands.command(
@@ -91,7 +91,7 @@ class moderation(commands.Cog):
             reason = "No reason"
 
         await ctx.guild.kick(user, reason=f"[KICK] {user.id} for {reason}")
-        await ctx.send(f"Kicked `{user}` for `{reason}`")
+        await ctx.send(f"Kicked {user} for {reason}")
 
     @commands.command()
     @commands.has_permissions(administrator=True)

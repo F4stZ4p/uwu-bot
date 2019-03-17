@@ -63,7 +63,7 @@ class create(commands.Cog):
         )
         await name_set.delete()
         await ctx.send(
-            f"Success! Made uwulonian with name `{name.content}`. Please read `uwu rules` for uwus rules regarding usage.".replace(
+            f"Success! Made uwulonian with name {name.content}. Please read uwu rules for uwus rules regarding usage.".replace(
                 "@", "@\u200b"
             )
         )

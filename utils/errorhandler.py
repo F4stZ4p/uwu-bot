@@ -72,7 +72,7 @@ class IsRatelimited(commands.CommandError):
         seconds = round(seconds, 2)
         hours, remainder = divmod(int(seconds), 3600)
         minutes, seconds = divmod(remainder, 60)
-        super().__init__(f"**Ratelimited**: `{seconds}` seconds.")
+        super().__init__(f"**Ratelimited**: {seconds} seconds.")
 
 
 class isEvent(commands.CommandError):
@@ -130,7 +130,7 @@ class errorhandler(commands.Cog):
             await ctx.caution(f"Too many arguments. Try less?")
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.caution(
-                f"Required argument `{str(error.param).split(':')[0]}` is missing. Ya sure you read the command description?"
+                f"Required argument {str(error.param).split(':')[0]} is missing. Ya sure you read the command description?"
             )
         elif isinstance(error, commands.MissingPermissions):
             await ctx.caution(error)
@@ -146,7 +146,7 @@ class errorhandler(commands.Cog):
             hours, remainder = divmod(int(seconds), 3600)
             minutes, seconds = divmod(remainder, 60)
             await ctx.caution(
-                f"You are on cooldown for `{hours}`h `{minutes}`m `{seconds}`sec"
+                f"You are on cooldown for {hours}h {minutes}m {seconds}sec"
             )
         elif isinstance(error, c_errors):
             return await ctx.caution(error)

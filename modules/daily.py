@@ -26,7 +26,7 @@ class daily(commands.Cog):
         raise (errorhandler.hasUwU(ctx))
 
     @errorhandler.on_cooldown()
-    @commands.command(description="Claim your daily uwus.")
+    @commands.command(description="Claim your daily uwus.", alias=["daily"])
     async def dailies(self, ctx):
         await self.bot.pool.execute(
             "UPDATE user_stats SET uwus = user_stats.uwus + 500 WHERE user_id = $1",
@@ -39,7 +39,7 @@ class daily(commands.Cog):
             "EX",
             86400,
         )
-        await ctx.send(f"{uwu_emote} You claimed your daily `500` uwus!")
+        await ctx.send(f"You claimed your daily 500 uwus!")
 
 
 def setup(bot):

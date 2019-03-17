@@ -63,7 +63,7 @@ class pets(commands.Cog):
         invoke_without_command=True, description="Does nothing without a subcommand"
     )
     async def pet(self, ctx):
-        await ctx.send("No subcommand passed. Valid subcommands `adopt, special`")
+        await ctx.send("No subcommand passed. Valid subcommands adopt, special")
 
     # TODO Shorten queries in adopt and activate.
 
@@ -328,7 +328,7 @@ class pets(commands.Cog):
         async with self.bot.pool.acquire() as conn:
             if pet is None:
                 return await ctx.caution(
-                    "Do `uwu pets` to find your pets to cuddles with. You need to do `uwu cuddle ID` replace ID with the pets ID."
+                    "Do uwu pets to find your pets to cuddles with. You need to do uwu cuddle ID replace ID with the pets ID."
                 )
             pets = await conn.fetch(
                 "SELECT user_id, pet_id FROM user_pets WHERE user_id = $1 AND pet_id = $2",
@@ -373,7 +373,7 @@ class pets(commands.Cog):
                 hours, remainder = divmod(int(seconds), 3600)
                 minutes, seconds = divmod(remainder, 60)
                 await ctx.send(
-                    f"You can't cuddle that pet for `{hours}`h `{minutes}`m `{seconds}`sec",
+                    f"You can't cuddle that pet for {hours}h {minutes}m {seconds}sec",
                     delete_after=30,
                 )
 
@@ -382,7 +382,7 @@ class pets(commands.Cog):
         async with self.bot.pool.acquire() as conn:
             if pet is None:
                 return await ctx.send(
-                    "Do `uwu pets special` to find your pets to entertain. You need to do `uwu entertain ID` replace ID with the pets ID."
+                    "Do uwu pets special to find your pets to entertain. You need to do uwu entertain ID replace ID with the pets ID."
                 )
             pets = await conn.fetch(
                 "SELECT user_id, pet_id FROM spc_user_pets WHERE user_id = $1 AND pet_id = $2",
@@ -451,7 +451,7 @@ RETURNING True;""",
                 hours, remainder = divmod(int(seconds), 3600)
                 minutes, seconds = divmod(remainder, 60)
                 await ctx.caution(
-                    f"You can't entertain again for `{hours}`h `{minutes}`m `{seconds}`sec"
+                    f"You can't entertain again for {hours}h {minutes}m {seconds}sec"
                 )
 
     @commands.group(
@@ -470,7 +470,7 @@ RETURNING True;""",
         )
         if pet is None:
             return await ctx.caution(
-                "Do `uwu pets special` to find your special pets. You need to do `uwu booster list ID` replace ID with the pets ID."
+                "Do uwu pets special to find your special pets. You need to do uwu booster list ID replace ID with the pets ID."
             )
         if not boosters:
             return await ctx.caution(
@@ -480,7 +480,7 @@ RETURNING True;""",
         for i in range(len(boosters)):
             list_boosters.append(boosters[i]["booster_name"])
         await ctx.send(
-            f"""Boosters for your pet with ID {pet} are `{", ".join(list_boosters)}`."""
+            f"""Boosters for your pet with ID {pet} are {", ".join(list_boosters)}."""
         )
 
     @booster.command(description="Sell boosters")
@@ -502,7 +502,7 @@ RETURNING True;""",
                 )
                 if pet is None:
                     return await ctx.caution(
-                        "Do `uwu pets special` to find your sepcial pets. You need to do `uwu booster sell ID` replace ID with the pets ID."
+                        "Do uwu pets special to find your sepcial pets. You need to do uwu booster sell ID replace ID with the pets ID."
                     )
                 if boosters is None:
                     return await ctx.caution(
@@ -595,7 +595,7 @@ RETURNING True;""",
                 minutes, seconds = divmod(remainder, 60)
 
                 await ctx.caution(
-                    f"You can't sell a booster again for `{hours}`h `{minutes}`m `{seconds}`sec"
+                    f"You can't sell a booster again for {hours}h {minutes}m {seconds}sec"
                 )
 
     @booster.command()
@@ -608,7 +608,7 @@ RETURNING True;""",
             )
             if pet is None:
                 return await ctx.caution(
-                    "Do `uwu pets special` to see the special pets you have."
+                    "Do uwu pets special to see the special pets you have."
                 )
             if boosters_1 is None:
                 return await ctx.caution(
@@ -673,7 +673,7 @@ VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (pet_id) DO UPDATE SET pet_id = $1, 
             hours, remainder = divmod(hu_time_left, 3600)
             minutes, seconds = divmod(remainder, 60)
             return await ctx.caution(
-                f"You already have a {booster_left['active_boosters']}. It ends in `{int(hours)}`h `{int(minutes)}`m `{int(seconds)}`sec"
+                f"You already have a {booster_left['active_boosters']}. It ends in {int(hours)}h {int(minutes)}m {int(seconds)}sec"
             )
 
     @commands.command()
@@ -681,7 +681,7 @@ VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (pet_id) DO UPDATE SET pet_id = $1, 
         async with self.bot.pool.acquire() as conn:
             if pet is None:
                 return await ctx.caution(
-                    "Do `uwu pets` to find your pets to cuddles with. You need to do `uwu cuddle ID` replace ID with the pets ID."
+                    "Do uwu pets to find your pets to cuddles with. You need to do uwu cuddle ID replace ID with the pets ID."
                 )
             pets = None
             if special is False:
@@ -712,7 +712,7 @@ VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (pet_id) DO UPDATE SET pet_id = $1, 
                         ctx.author.id,
                     )
                 await ctx.send(
-                    f"""Released your `{pets["pet_id"]}`. Special pet: `{special}`"""
+                    f"""Released your {pets["pet_id"]}. Special pet: {special}"""
                 )
 
 
