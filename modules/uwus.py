@@ -21,9 +21,8 @@ class uwus(commands.Cog):
         self.active_games = []
 
     async def cog_check(self, ctx):
-        if await self.bot.pool.fetchrow(
-            "SELECT user_id FROM user_settings WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
         raise (errorhandler.hasUwU(ctx))

@@ -179,18 +179,20 @@ class uwu(commands.Bot):
         await self.init_conns()
         with open("utils/schema.sql") as f:
             await self.pool.execute(f.read())
-        print("Bot ready!")
+
         bl_users = await self.pool.fetch("SELECT * FROM blacklists")
         patrons = await self.pool.fetch("SELECT * FROM p_users")
         prefixes = await self.pool.fetch("SELECT guild_id, prefix FROM guild_prefixes")
+
         for i in prefixes:
             self.prefixes[i[0]] = i[1]
         for i in range(len(bl_users)):
             self.blacklisted.append(int(bl_users[i]["user_id"]))
-        self.logger.info(f"[Start] Blacklisted users added.")
+        self.logger.info(f"[Start] Added {len(bl_users)} blacklisted users.")
         for i in range(len(patrons)):
             self.patrons.append(int(patrons[i]["user_id"]))
-        self.logger.info(f"[Start] Patrons added.")
+        self.logger.info(f"[Start] Added {len(patrons)} patrons.")
+
         game = discord.Game("with fwends")
         await self.change_presence(status=discord.Status.dnd, activity=game)
         self.logger.info(

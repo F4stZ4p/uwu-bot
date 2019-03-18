@@ -19,9 +19,8 @@ class exploring(commands.Cog):
         self.task_check_task = self.bot.loop.create_task(self.task_check())
 
     async def cog_check(self, ctx):
-        if await self.bot.pool.fetchrow(
-            "SELECT user_id FROM user_settings WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
         raise (errorhandler.hasUwU(ctx))

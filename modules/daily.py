@@ -18,15 +18,14 @@ class daily(commands.Cog):
         self.bot = bot
 
     async def cog_check(self, ctx):
-        if await self.bot.pool.fetchrow(
-            "SELECT user_id FROM user_settings WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
         raise (errorhandler.hasUwU(ctx))
 
     @errorhandler.on_cooldown()
-    @commands.command(description="Claim your daily uwus.", alias=["daily"])
+    @commands.command(description="Claim your daily uwus.", aliases=["daily"])
     async def dailies(self, ctx):
         await self.bot.pool.execute(
             "UPDATE user_stats SET uwus = user_stats.uwus + 500 WHERE user_id = $1",

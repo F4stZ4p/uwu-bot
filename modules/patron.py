@@ -15,12 +15,11 @@ class patron(commands.Cog):
         self.bot = bot
 
     async def cog_check(self, ctx):
-        if await self.bot.pool.fetchrow(
-            "SELECT user_id FROM p_users WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
-        raise (errorhandler.NotPatron(ctx))
+        raise (errorhandler.hasUwU(ctx))
 
     async def p_has_timer(self, user_id):
         user = await self.bot.pool.fetchrow(

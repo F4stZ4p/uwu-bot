@@ -22,9 +22,8 @@ def on_cooldown():
 
 def has_uwulonian():
     async def predicate(ctx):
-        if await ctx.bot.pool.fetchrow(
-            "SELECT user_id FROM user_settings WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
         raise (hasUwU(ctx))

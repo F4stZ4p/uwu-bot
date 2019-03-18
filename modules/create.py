@@ -61,6 +61,7 @@ class create(commands.Cog):
             0,
             name.content,
         )
+        await self.bot.redis.sadd("uwulonians", ctx.author.id)
         await name_set.delete()
         await ctx.send(
             f"Success! Made uwulonian with name {name.content}. Please read uwu rules for uwus rules regarding usage.".replace(
@@ -148,6 +149,7 @@ Name {name}
                     "DELETE FROM spc_user_pets WHERE user_id = $1", ctx.author.id
                 )
                 await asyncio.sleep(2)
+                await self.bot.redis.srem("uwulonians", ctx.author.id)
                 await delete_con.delete()
                 await del_msg.delete()
                 return await ctx.send("Deleted uwulonian :(")

@@ -28,9 +28,8 @@ class pets(commands.Cog):
         self.booster_left_task = self.bot.loop.create_task(self.booster_left())
 
     async def cog_check(self, ctx):
-        if await self.bot.pool.fetchrow(
-            "SELECT user_id FROM user_settings WHERE user_id = $1", ctx.author.id
-        ):
+        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        if uwulonian != 0:
             return True
 
         raise (errorhandler.hasUwU(ctx))
@@ -680,9 +679,7 @@ VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (pet_id) DO UPDATE SET pet_id = $1, 
     async def release(self, ctx, special: bool, pet: int = None):
         async with self.bot.pool.acquire() as conn:
             if pet is None:
-                return await ctx.caution(
-                    "Do uwu pets to find your pets to release."
-                )
+                return await ctx.caution("Do uwu pets to find your pets to release.")
             pets = None
             if special is False:
                 pets = await conn.fetchrow(
