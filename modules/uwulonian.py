@@ -163,7 +163,7 @@ class uwulonian(commands.Cog):
             e = discord.Embed(colour=0x7289DA)
 
             e.add_field(
-                name=f"Stats for {uwulonian_name['user_name']}",
+                name=f"Stats for {uwulonian_name['username']}",
                 value=f"""Foes killed - {uwulonian_name['foes_killed']}\nDeaths - {uwulonian_name['total_deaths']}\nuwus - {uwulonian_name['uwus']}""",
             )
             e.add_field(

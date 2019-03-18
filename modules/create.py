@@ -41,7 +41,7 @@ class create(commands.Cog):
             )
         try:
             await self.bot.pool.execute(
-                "INSERT INTO user_settings (user_id, user_name) VALUES ($1, $2);",
+                "INSERT INTO user_settings (user_id, username) VALUES ($1, $2);",
                 ctx.author.id,
                 name.content,
             )
@@ -80,7 +80,7 @@ class create(commands.Cog):
             )
         try:
             await self.bot.pool.execute(
-                "UPDATE user_settings SET user_name = $1 WHERE user_id = $2",
+                "UPDATE user_settings SET username = $1 WHERE user_id = $2",
                 name.replace("@", "@\u200b"),
                 ctx.author.id,
             )

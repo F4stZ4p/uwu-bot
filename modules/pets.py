@@ -681,7 +681,7 @@ VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (pet_id) DO UPDATE SET pet_id = $1, 
         async with self.bot.pool.acquire() as conn:
             if pet is None:
                 return await ctx.caution(
-                    "Do uwu pets to find your pets to cuddles with. You need to do uwu cuddle ID replace ID with the pets ID."
+                    "Do uwu pets to find your pets to release."
                 )
             pets = None
             if special is False:
