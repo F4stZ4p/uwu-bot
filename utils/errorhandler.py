@@ -22,7 +22,7 @@ def on_cooldown():
 
 def has_uwulonian():
     async def predicate(ctx):
-        uwulonian = await self.bot.redis.sismember("uwulonians", ctx.author.id)
+        uwulonian = await ctx.bot.redis.sismember("uwulonians", ctx.author.id)
         if uwulonian != 0:
             return True
 
