@@ -296,8 +296,8 @@ You have 30 seconds to guess! Good luck!
                     )
                 await conn.execute(
                     "UPDATE user_stats SET current_xp = user_stats.current_xp + $1, uwus = user_stats.uwus - $2 WHERE user_id = $3",
-                    amount_with_e,
                     amount,
+                    amount_with_e,
                     ctx.author.id,
                 )
                 await ctx.send(f"Converted {amount} uwus to {amount}xp")

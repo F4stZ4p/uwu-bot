@@ -402,7 +402,7 @@ class pets(commands.Cog):
                     7200,
                 )
                 love = randint(1, 2)
-                chance_of_item = randint(1, 80)
+                chance_of_item = randint(1, 100)
                 entertain_msges = [
                     "You and your pet are watching a movie together!",
                     "You are buying your pet a new toy.",
@@ -413,7 +413,7 @@ class pets(commands.Cog):
                 await asyncio.sleep(2)
                 if love == 0:
                     msg = f"Your pet didn't like the entertainment."
-                if chance_of_item < 30 and love != 0:
+                if chance_of_item < 5 and love != 0:
                     items = [
                         "2x XP",
                         "2x XP",

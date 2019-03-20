@@ -64,6 +64,7 @@ startup_extensions = [
     "modules.logging",
     "modules.music",
     "modules.moderation",
+    "modules.staff",
 ]
 
 prefixes = ["uwu ", "|"]
@@ -92,7 +93,7 @@ class uwu(commands.Bot):
         self.commands_ran = 0
         self.add_check(self.global_cooldown)
 
-    map = commands.CooldownMapping.from_cooldown(1, 4, commands.BucketType.user)
+    map = commands.CooldownMapping.from_cooldown(1, 3, commands.BucketType.user)
 
     async def get_pre(self, bot, message):
         if not message.guild:
@@ -156,8 +157,6 @@ class uwu(commands.Bot):
         self.redis = await aioredis.create_redis_pool(
             "redis://localhost",
             password=self.config["redispassword"],
-            minsize=5,
-            maxsize=10,
             loop=self.loop,
         )
         credentials = {
