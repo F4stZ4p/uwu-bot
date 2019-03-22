@@ -95,7 +95,7 @@ class moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def prefix(self, ctx, prefix: str):
+    async def prefix(self, ctx, *, prefix: str):
         try:
             if len(prefix) > 512:
                 return await ctx.caution(

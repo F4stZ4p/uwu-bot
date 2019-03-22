@@ -13,6 +13,7 @@ import traceback
 import textwrap
 import utils
 
+
 class owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -29,6 +30,7 @@ class owner(commands.Cog):
         self.bot.logger.info("[Logout] Logging out...")
         await ctx.send("Bye cruel world...")
         await self.bot.logout()
+
 
 def setup(bot):
     bot.add_cog(owner(bot))

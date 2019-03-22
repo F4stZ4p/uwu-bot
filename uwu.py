@@ -155,9 +155,7 @@ class uwu(commands.Bot):
 
     async def init_dbs(self):
         self.redis = await aioredis.create_redis_pool(
-            "redis://localhost",
-            password=self.config["redispassword"],
-            loop=self.loop,
+            "redis://localhost", password=self.config["redispassword"], loop=self.loop
         )
         credentials = {
             "user": self.config["dbuser"],

@@ -51,7 +51,12 @@ class exploring(commands.Cog):
             if not rows:
                 continue
             await extras.sleep_time(rows["finish_time"])
-            user = self.bot.get_user(rows["user_id"])
+            try:
+                user = self.bot.get_user(rows["user_id"])
+            except AttributeError:
+                return await self.bot.pool.execute(
+                    "DELETE FROM user_explores WHERE user_id = $1", rows["user_id"]
+                )
             foes = randint(20, 1000)
             deaths = randint(0, 2)
             uwus = (foes * 6) - (deaths * 40)
@@ -98,7 +103,12 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
             if not rows:
                 continue
             await extras.sleep_time(rows["finish_time"])
-            user = self.bot.get_user(rows["user_id"])
+            try:
+                user = self.bot.get_user(rows["user_id"])
+            except AttributeError:
+                return await self.bot.pool.execute(
+                    "DELETE FROM user_adventures WHERE user_id = $1", rows["user_id"]
+                )
             foes = randint(80, 1000)
             deaths = randint(0, 4)
             uwus = (foes * 8) - (deaths * 45)
@@ -166,15 +176,6 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
                 ctx.author.id,
                 end_time,
             )
-            guild = self.bot.get_guild(513_888_506_498_646_052)
-            channel = discord.utils.get(guild.text_channels, id=514_246_616_459_509_760)
-            await channel.send(
-                f"""```ini
-[Explore Set]
-User {ctx.author}({ctx.author.id})
-Time {datetime.utcnow().strftime("%X on %x")}```
-"""
-            )
             await ctx.send(
                 f"Your uwulonian is now exploring! It will return in 30 minutes"
             )
@@ -209,15 +210,6 @@ Time {datetime.utcnow().strftime("%X on %x")}```
                 "INSERT INTO user_adventures (user_id, finish_time) VALUES ($1, $2)",
                 ctx.author.id,
                 end_time,
-            )
-            guild = self.bot.get_guild(513_888_506_498_646_052)
-            channel = discord.utils.get(guild.text_channels, id=514_246_616_459_509_760)
-            await channel.send(
-                f"""```ini
-[Adventure Set]
-User {ctx.author}({ctx.author.id})
-Time {datetime.utcnow().strftime("%X on %x")}```
-"""
             )
             await ctx.send(
                 f"Your uwulonian is now adventuring! It will return in 1 hour"

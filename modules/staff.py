@@ -17,6 +17,7 @@ import io
 import copy
 from typing import Union
 
+
 class staff(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -163,6 +164,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
         expl = self.bot.get_cog("exploring").exploring_task
         await ctx.send(f"Exploring status: \n```{expl}```")
         await ctx.send(f"Adventure status: \n```{adv}```")
+
 
 def setup(bot):
     bot.add_cog(staff(bot))
