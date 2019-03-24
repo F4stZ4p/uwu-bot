@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS user_stats (
     foes_killed BIGINT NOT NULL,
     total_deaths BIGINT NOT NULL,
     current_level BIGINT NOT NULL DEFAULT 1,
+    married_to BIGINT,
     current_xp BIGINT NOT NULL DEFAULT 0
 );
 
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS guessing (
 );
 
 CREATE TABLE IF NOT EXISTS children (
-    lover1_id BIGINT NOT NULL REFERENCES marriages(user_id) ON DELETE CASCADE,
+    lover1_id BIGINT NOT NULL REFERENCES marriages(user1_id) ON DELETE CASCADE,
     lover2_id BIGINT NOT NULL REFERENCES user_settings(user_id) ON DELETE CASCADE,
     child_name VARCHAR(512) NOT NULL,
     age BIGINT NOT NULL,
@@ -140,4 +141,12 @@ CREATE TABLE IF NOT EXISTS bank_members (
 CREATE TABLE IF NOT EXISTS guild_prefixes (
     guild_id BIGINT PRIMARY KEY NOT NULL,
     prefix VARCHAR(512) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS welcome_leave (
+    guild_id BIGINT PRIMARY KEY NOT NULL,
+    welcome_channel BIGINT,
+    leave_channel BIGINT,
+    welcome_msg VARCHAR(512),
+    leave_msg VARCHAR(512)
 );

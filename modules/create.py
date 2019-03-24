@@ -94,15 +94,6 @@ class create(commands.Cog):
             return await ctx.send(
                 f"That name is already used. Please try again with a different name."
             )
-        guild = self.bot.get_guild(513_888_506_498_646_052)
-        channel = discord.utils.get(guild.text_channels, id=514_246_616_459_509_760)
-        await channel.send(
-            f"""```ini
-[Name change]
-User {ctx.author}({ctx.author.id})
-Name {name}
-```"""
-        )
         await ctx.send(
             "Name changed. Note: Abuse of this system will end with a character deletion or blacklist."
         )

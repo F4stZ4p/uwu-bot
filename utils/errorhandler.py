@@ -137,7 +137,7 @@ class errorhandler(commands.Cog):
             await ctx.caution(f"{ctx.command} is disabled.")
         elif isinstance(error, commands.BotMissingPermissions):
             await ctx.caution(
-                f"I need the permission {error.missing_perms[0]}. You can check my role or channel overrides to find permissions."
+                f"I need the permission {', '.replace(error.missing_perms)}. You can check my role or channel overrides to find permissions."
             )
         elif isinstance(error, commands.CommandOnCooldown):
             seconds = error.retry_after

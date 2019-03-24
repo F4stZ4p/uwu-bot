@@ -65,6 +65,7 @@ startup_extensions = [
     "modules.music",
     "modules.moderation",
     "modules.staff",
+    "modules.marriage",
 ]
 
 prefixes = ["uwu ", "|"]
