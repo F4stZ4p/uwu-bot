@@ -15,7 +15,6 @@ import psutil
 import discord
 from utils import errorhandler
 import logging.handlers
-import lavalink
 import utils
 
 logger = logging.getLogger("bot")
@@ -152,7 +151,6 @@ class uwu(commands.Bot):
 
     async def init_conns(self):
         await self.init_dbs()
-        await self.init_ll()
 
     async def init_dbs(self):
         self.redis = await aioredis.create_redis_pool(
@@ -165,13 +163,6 @@ class uwu(commands.Bot):
             "host": "127.0.0.1",
         }
         self.pool = await asyncpg.create_pool(**credentials, max_size=150)
-
-    async def init_ll(self):
-        self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(
-            self.config["lavalink_ip"], 8080, self.config["lavalink"], "us", "us-east"
-        )
-        self.add_listener(self.lavalink.voice_update_handler, "on_socket_response")
 
     async def on_ready(self):
         await self.init_conns()

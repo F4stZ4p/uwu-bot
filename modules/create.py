@@ -52,7 +52,7 @@ class create(commands.Cog):
             )
 
         await self.bot.pool.execute(
-            "INSERT INTO user_stats (user_id, uwus, foes_killed, total_deaths, current_xp, current_level, username) VALUES ($1, $2, $3, $4, $5, $6, $7);",
+            "INSERT INTO user_stats (user_id, uwus, foes, deaths, xp, level, username) VALUES ($1, $2, $3, $4, $5, $6, $7);",
             ctx.author.id,
             1000,
             0,

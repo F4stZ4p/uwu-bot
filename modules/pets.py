@@ -36,7 +36,7 @@ class pets(commands.Cog):
 
     async def cog_unload(self):
         try:
-            self.booster_left_task.cancel()
+            await self.booster_left_task.cancel()
         except:
             pass
 
@@ -185,12 +185,11 @@ class pets(commands.Cog):
                 "SELECT COUNT(*) FROM spc_user_pets WHERE user_id = $1", ctx.author.id
             )
             user_amount = await conn.fetchrow(
-                "SELECT uwus, current_level FROM user_stats WHERE user_id = $1",
-                ctx.author.id,
+                "SELECT uwus, level FROM user_stats WHERE user_id = $1", ctx.author.id
             )
             if all_pets >= 2:
                 return await ctx.caution("You can't have more then 2 special pets")
-            if user_amount["current_level"] < 10:
+            if user_amount["level"] < 10:
                 return await ctx.caution(
                     "You must be higher then level 10 to adopt a special pet"
                 )
@@ -265,7 +264,7 @@ class pets(commands.Cog):
                 cost = 1_000_000
                 level = 50
 
-            if user_amount["uwus"] < cost or user_amount["current_level"] < level:
+            if user_amount["uwus"] < cost or user_amount["level"] < level:
                 await pet_embed.delete()
                 return await ctx.send(
                     "You can't afford this pet or you aren't the required level.",
@@ -569,7 +568,7 @@ RETURNING True;""",
                     return await ctx.caution(f"You don't have a {option} booster.")
                 if xp_from:
                     await conn.execute(
-                        "UPDATE user_stats SET uwus = user_stats.uwus + $1, current_xp = user_stats.current_xp + $2 WHERE user_id = $3",
+                        "UPDATE user_stats SET uwus = user_stats.uwus + $1, xp = user_stats.xp + $2 WHERE user_id = $3",
                         uwus,
                         xp_from,
                         ctx.author.id,

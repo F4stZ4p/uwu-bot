@@ -15,11 +15,12 @@ CREATE TABLE IF NOT EXISTS user_stats (
     user_id BIGINT PRIMARY KEY NOT NULL REFERENCES user_settings(user_id) ON DELETE CASCADE,
     username VARCHAR(512) NOT NULL DEFAULT 'None',
     uwus BIGINT NOT NULL,
-    foes_killed BIGINT NOT NULL,
-    total_deaths BIGINT NOT NULL,
-    current_level BIGINT NOT NULL DEFAULT 1,
+    foes BIGINT NOT NULL,
+    deaths BIGINT NOT NULL,
+    level BIGINT NOT NULL DEFAULT 1,
     married_to BIGINT,
-    current_xp BIGINT NOT NULL DEFAULT 0
+    xp BIGINT NOT NULL DEFAULT 0,
+    prestige BIGINT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS marriages (
@@ -108,6 +109,7 @@ CREATE TABLE IF NOT EXISTS user_boosters (
 );
 
 CREATE TABLE IF NOT EXISTS pet_boosters (
+    user_id BIGINT NOT NULL,
     pet_id BIGINT REFERENCES spc_user_pets(pet_id) ON DELETE CASCADE,    
     booster_name VARCHAR(50) NOT NULL,
     booster_id SERIAL NOT NULL

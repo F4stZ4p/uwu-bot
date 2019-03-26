@@ -40,7 +40,7 @@ class votes(commands.Cog):
             int(ttl),
         )
         await self.bot.pool.execute(
-            "UPDATE user_stats SET uwus = user_stats.uwus + 1000, current_xp = user_stats.current_xp + 500 WHERE user_id = $1",
+            "UPDATE user_stats SET uwus = user_stats.uwus + 1000, xp = user_stats.xp + 500 WHERE user_id = $1",
             ctx.author.id,
         )
         await ctx.send("Thanks for voting. You received 1000 uwus and 500 xp!")

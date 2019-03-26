@@ -46,7 +46,7 @@ class exploring(commands.Cog):
         while not self.bot.is_closed():
             await asyncio.sleep(2)
             rows = await self.bot.pool.fetchrow(
-                "SELECT user_explores.user_id, finish_time, user_stats.uwus, user_stats.current_level, user_stats.current_xp FROM user_explores INNER JOIN user_stats ON user_explores.user_id = user_stats.user_id ORDER BY finish_time ASC LIMIT 1;"
+                "SELECT user_explores.user_id, finish_time, user_stats.uwus, user_stats.level, user_stats.xp FROM user_explores INNER JOIN user_stats ON user_explores.user_id = user_stats.user_id ORDER BY finish_time ASC LIMIT 1;"
             )
             if not rows:
                 continue
@@ -73,7 +73,7 @@ class exploring(commands.Cog):
 {uwus} uwus earned!
 
 Total uwus {rows['uwus'] + uwus}
-xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500} xp and {(rows['current_level'] + 1) * 500} uwus to level up)
+xp {rows['xp'] + xp} (Hint: You need {(rows['level'] + 1) * 1500} xp and {(rows['level'] + 1) * 500} uwus to level up)
 """,
                 )
                 e.set_author(name="Exploring")
@@ -82,7 +82,7 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
             except (discord.Forbidden, TypeError, AttributeError):
                 pass
             await self.bot.pool.execute(
-                "UPDATE user_stats SET uwus = user_stats.uwus + $1, current_xp = user_stats.current_xp + $2, foes_killed = user_stats.foes_killed + $3, total_deaths = user_stats.total_deaths + $4 WHERE user_id = $5",
+                "UPDATE user_stats SET uwus = user_stats.uwus + $1, xp = user_stats.xp + $2, foes = user_stats.foes + $3, deaths = user_stats.deaths + $4 WHERE user_id = $5",
                 uwus,
                 xp,
                 foes,
@@ -98,7 +98,7 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
         while not self.bot.is_closed():
             await asyncio.sleep(2)
             rows = await self.bot.pool.fetchrow(
-                "SELECT user_adventures.user_id, finish_time, user_stats.uwus, user_stats.current_level, user_stats.current_xp FROM user_adventures INNER JOIN user_stats ON user_adventures.user_id = user_stats.user_id ORDER BY finish_time ASC LIMIT 1;"
+                "SELECT user_adventures.user_id, finish_time, user_stats.uwus, user_stats.level, user_stats.xp FROM user_adventures INNER JOIN user_stats ON user_adventures.user_id = user_stats.user_id ORDER BY finish_time ASC LIMIT 1;"
             )
             if not rows:
                 continue
@@ -125,7 +125,7 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
 {uwus} uwus earned!
 
 Total uwus {rows['uwus'] + uwus}
-xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500} xp and {(rows['current_level'] + 1) * 500} uwus to level up)
+xp {rows['xp'] + xp} (Hint: You need {(rows['level'] + 1) * 1500} xp and {(rows['level'] + 1) * 500} uwus to level up)
 """,
                 )
                 e.set_author(name="Adventure")
@@ -134,7 +134,7 @@ xp {rows['current_xp'] + xp} (Hint: You need {(rows['current_level'] + 1) * 1500
             except (discord.Forbidden, TypeError, AttributeError):
                 pass
             await self.bot.pool.execute(
-                "UPDATE user_stats SET uwus = user_stats.uwus + $1, current_xp = user_stats.current_xp + $2, foes_killed = user_stats.foes_killed + $3, total_deaths = user_stats.total_deaths + $4 WHERE user_id = $5",
+                "UPDATE user_stats SET uwus = user_stats.uwus + $1, xp = user_stats.xp + $2, foes = user_stats.foes + $3, deaths = user_stats.deaths + $4 WHERE user_id = $5",
                 uwus,
                 xp,
                 foes,

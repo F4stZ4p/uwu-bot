@@ -219,12 +219,12 @@ You have 30 seconds to guess! Good luck!
             uwulonian = await conn.fetchrow(
                 "SELECT * FROM user_stats WHERE user_id = $1", ctx.author.id
             )
-            if uwulonian["current_xp"] < 500:
+            if uwulonian["xp"] < 500:
                 return await ctx.caution("You must have atleast 500xp to scavenge.")
             if choice(["false", "true"]) == "false":
                 xp_lost = randint(100, 300)
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, total_deaths = user_stats.total_deaths + 1 WHERE user_id = $2",
+                    "UPDATE user_stats SET xp = user_stats.xp - $1, deaths = user_stats.deaths + 1 WHERE user_id = $2",
                     xp_lost,
                     ctx.author.id,
                 )
@@ -239,7 +239,7 @@ You have 30 seconds to guess! Good luck!
                 )
                 if not booster or booster["boost_type"] == "uwus":
                     await conn.execute(
-                        "UPDATE user_stats SET current_xp = user_stats.current_xp + $1 WHERE user_id = $2",
+                        "UPDATE user_stats SET xp = user_stats.xp + $1 WHERE user_id = $2",
                         xp_won,
                         ctx.author.id,
                     )
@@ -252,7 +252,7 @@ You have 30 seconds to guess! Good luck!
                         f"""You have a {booster["boost_amount"]} XP booster active."""
                     )
                     await conn.execute(
-                        "UPDATE user_stats SET current_xp = user_stats.current_xp + $1 WHERE user_id = $2",
+                        "UPDATE user_stats SET xp = user_stats.xp + $1 WHERE user_id = $2",
                         xp_won,
                         ctx.author.id,
                     )
@@ -260,7 +260,7 @@ You have 30 seconds to guess! Good luck!
                         f"""{uwulonian["username"]} is back from scavenging and gained {xp_won}xp"""
                     )
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp + $1 WHERE user_id = $2",
+                    "UPDATE user_stats SET xp = user_stats.xp + $1 WHERE user_id = $2",
                     xp_won,
                     ctx.author.id,
                 )
@@ -276,14 +276,14 @@ You have 30 seconds to guess! Good luck!
             )
             if exchange.lower() not in ["uwus", "xp"]:
                 return await ctx.caution("Please only use uwus or xp.")
-            amount_with_e = amount * 3.2
+            amount_with_e = amount * 1.7
             if exchange.lower() == "xp":
-                if uwulonian["current_xp"] < amount_with_e:
+                if uwulonian["xp"] < amount_with_e:
                     return await ctx.caution(
                         "You don't have enough XP to exchange that. (Note: There is a fee)"
                     )
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp - $1, uwus = user_stats.uwus + $2 WHERE user_id = $3",
+                    "UPDATE user_stats SET xp = user_stats.xp - $1, uwus = user_stats.uwus + $2 WHERE user_id = $3",
                     amount_with_e,
                     amount,
                     ctx.author.id,
@@ -295,7 +295,7 @@ You have 30 seconds to guess! Good luck!
                         "You don't have enough uwus to exchange that. (Note: There is a fee)"
                     )
                 await conn.execute(
-                    "UPDATE user_stats SET current_xp = user_stats.current_xp + $1, uwus = user_stats.uwus - $2 WHERE user_id = $3",
+                    "UPDATE user_stats SET xp = user_stats.xp + $1, uwus = user_stats.uwus - $2 WHERE user_id = $3",
                     amount,
                     amount_with_e,
                     ctx.author.id,

@@ -122,7 +122,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
     async def givexp(self, ctx, user_id: int, amount: int):
         user = self.bot.get_user(user_id)
         await self.bot.pool.execute(
-            "UPDATE user_stats SET current_xp = user_stats.current_xp + $1 WHERE user_id = $2",
+            "UPDATE user_stats SET xp = user_stats.xp + $1 WHERE user_id = $2",
             amount,
             user_id,
         )
@@ -142,7 +142,7 @@ Thanks for your **{tier}** patronage! Enjoy your patron only commands!
     async def removexp(self, ctx, user_id: int, amount: int):
         user = self.bot.get_user(user_id)
         await self.bot.pool.execute(
-            "UPDATE user_stats SET current_xp = user_stats.current_xp - $1 WHERE user_id = $2",
+            "UPDATE user_stats SET xp = user_stats.xp - $1 WHERE user_id = $2",
             amount,
             user_id,
         )

@@ -30,9 +30,9 @@ class uwulonian(commands.Cog):
             resize_avy = avy.resize((200, 200), Image.ANTIALIAS)
             fill = ImageColor.getrgb(color["profile_color"])
             draw.text((25, 215), f"{color['username']}", fill=(0, 0, 0), font=font1)
-            draw.text((640, 35), f"{color['current_level']}", fill=fill, font=font)
+            draw.text((640, 35), f"{color['level']}", fill=fill, font=font)
             draw.text((640, 93), f"{color['uwus']:6}", fill=fill, font=font)
-            draw.text((640, 147), f"{color['current_xp']:6}", fill=fill, font=font)
+            draw.text((640, 147), f"{color['xp']:6}", fill=fill, font=font)
             draw.text(
                 (606, 219),
                 f"""{color['time_created'].strftime("%x")}""",
@@ -163,11 +163,11 @@ class uwulonian(commands.Cog):
 
             e.add_field(
                 name=f"Stats for {uwulonian_name['username']}",
-                value=f"""Foes killed - {uwulonian_name['foes_killed']}\nDeaths - {uwulonian_name['total_deaths']}\nuwus - {uwulonian_name['uwus']}""",
+                value=f"""Foes killed - {uwulonian_name['foes']}\nDeaths - {uwulonian_name['deaths']}\nuwus - {uwulonian_name['uwus']}""",
             )
             e.add_field(
                 name="Levels",
-                value=f"XP - {uwulonian_name['current_xp']}\n Level - {uwulonian_name['current_level']}",
+                value=f"XP - {uwulonian_name['xp']}\n Level - {uwulonian_name['level']}\n Prestige - {uwulonian_name['prestige']}",
             )
             e.add_field(
                 name="Time created",
@@ -178,26 +178,28 @@ class uwulonian(commands.Cog):
 
     @commands.command(
         aliases=["lb", "wowcheaterhenumber1onlb"],
-        description="Check the leaderboard for total_deaths, foes_killed, uwus, and current_xp, or current_level.",
+        description="Check the leaderboard for deaths, foes, uwus, and xp, or level.",
         brief="Check leaderboards",
     )
     async def leaderboard(self, ctx, sort=None):
-        sorts = ["deaths", "foes", "uwus", "xp", "level"]
+        sorts = ["deaths", "foes", "uwus", "xp", "level", "prestige"]
         new_sort = None
         if sort is None or sort.lower() not in sorts:
             return await ctx.caution(
                 f"Invalid type. Valid `deaths, foes, uwus, xp, and level`"
             )
         if sort.lower() == "deaths":
-            new_sort = "total_deaths"
+            new_sort = "deaths"
         elif sort.lower() == "foes":
-            new_sort = "foes_killed"
+            new_sort = "foes"
         elif sort.lower() == "level":
-            new_sort = "current_level"
+            new_sort = "level"
         elif sort.lower() == "xp":
-            new_sort = "current_xp"
+            new_sort = "xp"
         elif sort.lower() == "uwus":
             new_sort = "uwus"
+        elif sort.lower() == "prestige":
+            new_sort = "prestige"
         lb = await self.bot.pool.fetch(
             f"SELECT username, {new_sort} FROM user_stats ORDER BY {new_sort} DESC LIMIT 5;"
         )
@@ -220,10 +222,10 @@ class uwulonian(commands.Cog):
             user = await conn.fetchrow(
                 "SELECT * FROM user_stats WHERE user_id = $1", ctx.author.id
             )
-            new_level = user["current_level"] + 1
+            new_level = user["level"] + 1
             uwus_needed = new_level * 500
             xp_needed = new_level * 1500
-            if new_level * 1500 > user["current_xp"]:
+            if new_level * 1500 > user["xp"]:
                 return await ctx.caution(
                     f"You don't have enough xp to level up to level {new_level}. (Hint: you need {xp_needed} xp to level up)"
                 )
@@ -233,7 +235,7 @@ class uwulonian(commands.Cog):
                 )
 
             await conn.execute(
-                """UPDATE user_stats SET uwus = user_stats.uwus - $1, current_xp = user_stats.current_xp - $2, current_level = $3 
+                """UPDATE user_stats SET uwus = user_stats.uwus - $1, xp = user_stats.xp - $2, level = $3 
             WHERE user_id = $4""",
                 uwus_needed,
                 xp_needed,
@@ -241,6 +243,46 @@ class uwulonian(commands.Cog):
                 ctx.author.id,
             )
             await ctx.send(f"{user['username']} is now level {new_level}!")
+
+    @errorhandler.has_uwulonian()
+    @commands.command()
+    async def prestige(self, ctx):
+        async with self.bot.pool.acquire() as conn:
+            user_stats = await conn.fetchrow(
+                "SELECT * FROM user_stats WHERE user_id = $1", ctx.author.id
+            )
+            if user_stats["level"] < 100:
+                return await ctx.caution("You must be level 100+ to prestige.")
+
+            warning = await ctx.send(
+                f"Are you sure you want to prestige? This will reset all your stats and remove all your boosters. You have 30 seconds to react..."
+            )
+            await warning.add_reaction("\U00002705")
+
+            def check(reaction, user):
+                return (
+                    user.id == ctx.author.id
+                    and str(reaction.emoji) == "\U00002705"
+                    and reaction.message.id == warning.id
+                )
+
+            try:
+                reaction, user = await self.bot.wait_for(
+                    "reaction_add", timeout=30, check=check
+                )
+            except asyncio.TimeoutError:
+                await warning.delete()
+                return await ctx.send(f"Not prestiging.")
+
+            await conn.execute(
+                "UPDATE user_stats SET level = 0, uwus = 0, xp = 0, foes = 0, deaths = 0, prestige = user_stats.prestige + 1 WHERE user_id = $1",
+                ctx.author.id,
+            )
+            await conn.execute(
+                "DELETE FROM pet_boosters WHERE user_id = $1", ctx.author.id
+            )
+            await warning.delete()
+            await ctx.send(f"""Prestiged to prestige {user_stats["prestige"] + 1}""")
 
 
 def setup(bot):
