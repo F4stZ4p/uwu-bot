@@ -144,7 +144,7 @@ class uwu(commands.Bot):
         if ctx.command:
             if message.author.id in self.blacklisted:
                 return await message.channel.send(
-                    f"You may not use uwu. You were blacklisted."
+                    f"You can not use uwu. You were blacklisted."
                 )
 
             await self.process_commands(message)
